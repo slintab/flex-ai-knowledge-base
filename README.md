@@ -1,6 +1,6 @@
 # Twilio Flex: Suggested Responses
 
-This [Twilio Flex](https://www.twilio.com/flex) plugin uses the [Azure Cognotive Question Answering](https://azure.microsoft.com/en-gb/services/cognitive-services/question-answering/) service to suggest answers to customer queries for contact center agents.
+This [Twilio Flex](https://www.twilio.com/flex) plugin uses the [Azure Cognitive Question Answering](https://azure.microsoft.com/en-gb/services/cognitive-services/question-answering/) service to suggest answers to customer queries for contact center agents.
 
 It also enables agents to add and improve suggestions by allowing them to mark questions and answer pairs in chat interactions.
 
