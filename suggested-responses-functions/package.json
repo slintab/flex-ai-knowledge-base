@@ -1,0 +1,22 @@
+{
+  "name": "suggested-response-functions",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "twilio-run",
+    "deploy": "twilio-run deploy"
+  },
+  "dependencies": {
+    "@twilio/runtime-handler": "1.2.4",
+    "axios": "^0.27.2",
+    "twilio": "^3.56",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "twilio-run": "^3.4.4"
+  },
+  "engines": {
+    "node": "14"
+  }
+}
