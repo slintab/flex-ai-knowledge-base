@@ -1,3 +1,3 @@
 export default {
-  FUNCTION_URL: "https://{YOUR_FUNCTION_NAME}.twil.io",
+  FUNCTION_URL: "https://suggested-response-functions-8180-dev.twil.io",
 };

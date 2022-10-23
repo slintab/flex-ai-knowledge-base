@@ -1,6 +1,7 @@
 const axios = require("axios");
 
 exports.handler = async (context, event, callback) => {
+  console.log("Question: ", event.question);
   const createResponse = () => {
     const response = new Twilio.Response();
 
@@ -23,6 +24,11 @@ exports.handler = async (context, event, callback) => {
       question: event.question,
       includeUnstructuredSources: true,
       confidenceScoreThreshold: 0.3,
+      answerSpanRequest: {
+        enable: true,
+        confidenceScoreThreshold: 0,
+        topAnswersWithSpan: 1,
+      },
     };
 
     const result = await axios.post(context.queryUrl, payload, {
