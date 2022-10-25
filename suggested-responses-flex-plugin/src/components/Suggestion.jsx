@@ -85,9 +85,15 @@ function Suggestion(props) {
   };
 
   const setSuggestedResponse = (response) => {
-    if (response && response.questions.length > 0) {
-      setSuggestion(response.answer);
-      setConfidence(response.confidenceScore);
+    if (response && response.answer.length > 0) {
+      // Use short answer if available
+      if (response.answerSpan && response.answerSpan.text) {
+        setSuggestion(response.answerSpan.text);
+        setConfidence(response.answerSpan.confidenceScore);
+      } else {
+        setSuggestion(response.answer);
+        setConfidence(response.confidenceScore);
+      }
     }
   };
 
