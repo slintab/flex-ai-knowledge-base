@@ -12,7 +12,7 @@ function KBMessageMetaOption(props) {
   const direction = props.message.isFromMe ? "outbound" : "inbound";
   const [buttonDisabled, setbuttonDisabled] = useState(false);
 
-  const handleMarking = () => {
+  const markMessage = () => {
     setbuttonDisabled(true);
 
     if (direction === "inbound") {
@@ -34,21 +34,15 @@ function KBMessageMetaOption(props) {
     <Theme.Provider theme={props.theme}>
       <ChatMessage variant={direction}>
         <ChatMessageMeta aria-label="buttons to mark message as question or answer">
-          {direction === "outbound" && (
-            <ChatMessageMetaItem></ChatMessageMetaItem>
-          )}
           <ChatMessageMetaItem>
             <Button
               variant={direction === "inbound" ? "destructive_link" : "link"}
-              onClick={handleMarking}
+              onClick={markMessage}
               disabled={buttonDisabled}
             >
-              Mark {direction === "inbound" ? "question" : "answer"}
+              {direction === "inbound" ? "question" : "answer"}
             </Button>
           </ChatMessageMetaItem>
-          {direction === "inbound" && (
-            <ChatMessageMetaItem></ChatMessageMetaItem>
-          )}
         </ChatMessageMeta>
       </ChatMessage>
     </Theme.Provider>
