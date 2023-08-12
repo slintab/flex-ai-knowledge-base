@@ -41,7 +41,7 @@ function QAMessageMetaOption(props) {
               onClick={markMessage}
               disabled={buttonDisabled}
               title={direction === "inbound" ? "Mark as question" : "Mark as answer"}>
-              {direction === "inbound" ? <Flex.Icon icon="Questionnaires" id="test"/> : <Flex.Icon icon="GenericTask"/>}
+              {direction === "inbound" ? <Flex.Icon icon="GenericTask" id="test"/> : <Flex.Icon icon="GenericTaskBold"/>}
             </Button>
           </ChatMessageMetaItem>
         </ChatMessageMeta>
