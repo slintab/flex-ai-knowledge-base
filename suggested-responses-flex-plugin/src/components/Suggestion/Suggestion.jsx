@@ -15,31 +15,15 @@ import {
   ChatBubble,
 } from "@twilio-paste/chat-log";
 
-import { getSuggestion } from "../utils";
+import SuggestionService from "../../utils/SuggestionService";
 
 function Suggestion(props) {
   const [suggestion, setSuggestion] = useState();
   const [confidence, setConfidence] = useState(0);
 
+  
+
   useEffect(() => {
-    async function getSuggestedResponse(message, worker) {
-      if (message.author === worker) {
-        return;
-      }
-
-      if (message.type !== "text") {
-        return;
-      }
-
-      if (message.body.split(" ").length === 1) {
-        return;
-      }
-
-      const suggestion = await getSuggestion(message.body);
-
-      return suggestion;
-    }
-
     async function init() {
       const manager = Flex.Manager.getInstance();
       const worker = manager.workerClient.name;
@@ -55,20 +39,20 @@ function Suggestion(props) {
       });
 
       const messages = await conversation.getMessages();
-      await new Promise((resolve) => setTimeout(resolve, 200)); //object properties are set asynchronously - delay added to wait until they can be resolved
 
-      messages.items.forEach(async (message) => {
-        if (!suggestion) {
-          const response = await getSuggestedResponse(message, worker);
+      for (const message of messages.items) {
+        const response = await getSuggestedResponse(message, worker);
+        if (response) {
           setSuggestedResponse(response);
+          break;
         }
-      });
+      }
     }
 
     init();
   }, []);
 
-  const handleSend = () => {
+  const sendMessage = () => {
     Flex.Actions.invokeAction("SendMessage", {
       conversationSid: props.conversationSid,
       body: suggestion,
@@ -76,7 +60,7 @@ function Suggestion(props) {
     setSuggestion(null);
   };
 
-  const handleInsert = () => {
+  const insertMessage = () => {
     Flex.Actions.invokeAction("SetInputText", {
       conversationSid: props.conversationSid,
       body: suggestion,
@@ -84,16 +68,35 @@ function Suggestion(props) {
     setSuggestion(null);
   };
 
+  const getSuggestedResponse = async(message, worker)=> {
+    if (message.author === worker) {
+      return;
+    }
+
+    if (message.type !== "text") {
+      return;
+    }
+
+    if (message.body.split(" ").length === 1) {
+      return;
+    }
+    try {
+      const suggestion = await SuggestionService.getSuggestion(message.body);
+      return suggestion;
+    } catch (e) {
+      console.log("Error fetching suggested answer: " + e);
+    }
+
+    return null;
+  }
+
   const setSuggestedResponse = (response) => {
     if (response && response.answer.length > 0) {
-      // Use short answer if available
-      if (response.answerSpan && response.answerSpan.text) {
-        setSuggestion(response.answerSpan.text);
-        setConfidence(response.answerSpan.confidenceScore);
-      } else {
-        setSuggestion(response.answer);
-        setConfidence(response.confidenceScore);
-      }
+      const answer = response.answerSpan?.text || response.answer;
+      const score =
+        response.answerSpan?.confidenceScore || response.confidenceScore;
+      setSuggestion(answer);
+      setConfidence(Math.round(score * 100) / 100);
     }
   };
 
@@ -107,8 +110,6 @@ function Suggestion(props) {
       >
         <Separator
           orientation="horizontal"
-          verticalSpacing="space0"
-          margin="space0"
         />
         <ChatLog>
           <ChatMessage variant="inbound">
@@ -116,36 +117,43 @@ function Suggestion(props) {
               <ChatMessageMetaItem>
                 <Text
                   textAlign="center"
-                  paddingTop="space10"
                   fontFamily="fontFamilyText"
                   fontWeight="fontWeightSemibold"
                 >
                   Suggested response
                 </Text>
               </ChatMessageMetaItem>
-              <ChatMessageMetaItem></ChatMessageMetaItem>
             </ChatMessageMeta>
             <ChatBubble>{suggestion ? suggestion : "No suggestion"}</ChatBubble>
             {suggestion && (
-              <ChatMessageMeta aria-label="suggestion confidence score">
-                <ChatMessageMetaItem>
-                  Confidence: {confidence}
-                </ChatMessageMetaItem>
-                <ChatMessageMetaItem>
-                  <Stack orientation="horizontal" spacing="space30">
-                    <Button variant="primary" size="small" onClick={handleSend}>
-                      Send
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      size="small"
-                      onClick={handleInsert}
-                    >
-                      Insert
-                    </Button>
-                  </Stack>
-                </ChatMessageMetaItem>
-              </ChatMessageMeta>
+              <Box padding="space10">
+                <ChatMessageMeta
+                  aria-label="suggestion confidence score"
+                  paddingBottom="space10"
+                >
+                  <ChatMessageMetaItem>
+                    Confidence: {confidence}
+                  </ChatMessageMetaItem>
+                  <ChatMessageMetaItem>
+                    <Stack orientation="horizontal" spacing="space30">
+                      <Button
+                        variant="primary"
+                        size="small"
+                        onClick={sendMessage}
+                      >
+                        Send
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        size="small"
+                        onClick={insertMessage}
+                      >
+                        Insert
+                      </Button>
+                    </Stack>
+                  </ChatMessageMetaItem>
+                </ChatMessageMeta>
+              </Box>
             )}
           </ChatMessage>
         </ChatLog>

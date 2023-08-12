@@ -1,10 +1,11 @@
 import React from "react";
 import { FlexPlugin } from "@twilio/flex-plugin";
+import { Actions } from "@twilio/flex-ui";
 
-import Suggestion from "./components/Suggestion";
-import KBMessageMetaOption from "./components/KBMessageMetaOption";
+import Suggestion from "./components/Suggestion/Suggestion";
+import KBMessageMetaOption from "./components/QAMessageMetaItem/QAMessageMetaItem";
 
-import { updateKnowledgebase } from "./utils";
+import { updateKnowledgebase } from "./actions/updateQA";
 
 const PLUGIN_NAME = "SuggestedResponsePlugin";
 
@@ -26,6 +27,6 @@ export default class SuggestedResponse extends FlexPlugin {
       <KBMessageMetaOption key="kb-message-option" />
     );
 
-    manager.events.addListener("taskWrapup", updateKnowledgebase);
+    Actions.addListener("afterCompleteTask", updateKnowledgebase);
   }
 }
