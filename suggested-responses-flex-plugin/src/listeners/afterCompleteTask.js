@@ -1,4 +1,4 @@
-import { Actions } from "@twilio/flex-ui";
+import { Actions, Notifications } from "@twilio/flex-ui";
 import SuggestionService from "../services/SuggestionService";
 
 export default function afterCompleteTask() {
@@ -13,8 +13,10 @@ export default function afterCompleteTask() {
     const result = await SuggestionService.addSuggestion(question, answer);
     if (!result) {
       console.log(`Error updating KB with: ${question}: ${answer}.`);
+      return Notifications.showNotification("updateQAErrorNotification");
     }
 
     console.log(`KB updated with: ${question}: ${answer}.`);
+    return Notifications.showNotification("updateQASuccessNotification");
   });
 }

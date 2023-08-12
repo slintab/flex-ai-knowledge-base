@@ -1,6 +1,7 @@
 import React from "react";
 import { FlexPlugin } from "@twilio/flex-plugin";
 import * as listeners from "./listeners";
+import "./notifications/updateQANotifications";
 import Suggestion from "./components/Suggestion/Suggestion";
 import KBMessageMetaOption from "./components/QAMessageMetaItem/QAMessageMetaItem";
 
