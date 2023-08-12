@@ -8,7 +8,7 @@ import {
   ChatMessageMetaItem,
 } from "@twilio-paste/chat-log";
 
-function KBMessageMetaOption(props) {
+function QAMessageMetaOption(props) {
   const direction = props.message.isFromMe ? "outbound" : "inbound";
   const [buttonDisabled, setbuttonDisabled] = useState(false);
 
@@ -49,4 +49,4 @@ function KBMessageMetaOption(props) {
   );
 }
 
-export default Flex.withTheme(Flex.withTaskContext(KBMessageMetaOption));
+export default Flex.withTheme(Flex.withTaskContext(QAMessageMetaOption));

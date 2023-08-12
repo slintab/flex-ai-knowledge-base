@@ -1,11 +1,8 @@
 import React from "react";
 import { FlexPlugin } from "@twilio/flex-plugin";
-import { Actions } from "@twilio/flex-ui";
-
+import * as listeners from "./listeners";
 import Suggestion from "./components/Suggestion/Suggestion";
 import KBMessageMetaOption from "./components/QAMessageMetaItem/QAMessageMetaItem";
-
-import { updateKnowledgebase } from "./actions/updateQA";
 
 const PLUGIN_NAME = "SuggestedResponsePlugin";
 
@@ -21,12 +18,16 @@ export default class SuggestedResponse extends FlexPlugin {
    * @param flex { typeof import('@twilio/flex-ui') }
    */
   async init(flex, manager) {
+    this.registerListeners();
+
     flex.MessageInputV2.Content.add(<Suggestion key="suggestion" />);
 
     flex.MessageListItem.Content.add(
       <KBMessageMetaOption key="kb-message-option" />
     );
+  }
 
-    Actions.addListener("afterCompleteTask", updateKnowledgebase);
+  registerListeners() {
+    listeners.afterCompleteTask();
   }
 }
