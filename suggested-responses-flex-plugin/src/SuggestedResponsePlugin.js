@@ -19,16 +19,19 @@ export default class SuggestedResponse extends FlexPlugin {
    * @param flex { typeof import('@twilio/flex-ui') }
    */
   async init(flex, manager) {
-    this.registerListeners();
+    const pluginConfig =
+      manager.serviceConfiguration.ui_attributes.suggested_responses;
+
+    console.log(pluginConfig);
 
     flex.MessageInputV2.Content.add(<Suggestion key="suggestion" />);
 
     flex.MessageListItem.Content.add(
-      <KBMessageMetaOption key="kb-message-option" />
+      <KBMessageMetaOption key="kb-message-option" />,
+      { if: () => pluginConfig?.enableUpdates !== false }
     );
-  }
-
-  registerListeners() {
-    listeners.afterCompleteTask();
+    if (pluginConfig?.enableUpdates !== false) {
+      listeners.afterCompleteTask();
+    }
   }
 }
