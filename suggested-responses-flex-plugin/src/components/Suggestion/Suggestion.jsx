@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import * as Flex from "@twilio/flex-ui";
-
 import { Theme } from "@twilio-paste/core/theme";
 import { Box } from "@twilio-paste/core/box";
 import { Separator } from "@twilio-paste/core/separator";
@@ -28,16 +27,19 @@ function Suggestion(props) {
       const manager = Flex.Manager.getInstance();
       const worker = manager.workerClient.name;
 
+      // fetch conversation
       const conversation =
         await manager.conversationsClient.getConversationBySid(
           props.conversationSid
         );
-
+      
+      // subscribe to incoming messages
       conversation.on("messageAdded", async (message) => {
         const response = await getSuggestedResponse(message, worker);
         setSuggestedResponse(response);
       });
 
+      // get suggestion for existing messages
       const messages = await conversation.getMessages();
 
       for (const message of messages.items) {
@@ -69,22 +71,26 @@ function Suggestion(props) {
   };
 
   const getSuggestedResponse = async(message, worker)=> {
+    // ignore agent messages
     if (message.author === worker) {
       return;
     }
 
+    // ignore attachments
     if (message.type !== "text") {
       return;
     }
 
+    // ignore one word messages
     if (message.body.split(" ").length === 1) {
       return;
     }
    
     const suggestion = await SuggestionService.getSuggestion(message.body);
+    
     if (!suggestion) {
       console.log("Error fetching suggested answer.");
-      return null
+      return;
     }
     return suggestion;
   }
@@ -94,6 +100,7 @@ function Suggestion(props) {
       const answer = response.answerSpan?.text || response.answer;
       const score =
         response.answerSpan?.confidenceScore || response.confidenceScore;
+      
       setSuggestion(answer);
       setConfidence(Math.round(score * 100) / 100);
     }
