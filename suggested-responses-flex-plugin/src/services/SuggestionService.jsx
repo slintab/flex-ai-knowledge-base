@@ -30,14 +30,11 @@ class SuggestionService {
       this.manager.store.getState().flex.session.ssoTokenPayload.token;
     const payload = { ...data, Token: token };
     
-    console.log(payload);
-
     try {
       const result = await axios.post(url, payload)
-      console.log(`Request made. URL: ${url}, Payload: {${payload}, Response: ${JSON.stringify(result)}} `)
     return result
     } catch (e) {
-      console.log(`Error making request. URL: ${url}, Payload: {${payload}, Error: ${e}} `)
+      console.log(`Error making request: ${e}} `)
     }
 
     return false

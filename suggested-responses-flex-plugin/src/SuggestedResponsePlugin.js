@@ -22,8 +22,6 @@ export default class SuggestedResponse extends FlexPlugin {
     const pluginConfig =
       manager.serviceConfiguration.ui_attributes.suggested_responses;
 
-    console.log(pluginConfig);
-
     flex.MessageInputV2.Content.add(<Suggestion key="suggestion" />);
 
     flex.MessageListItem.Content.add(
