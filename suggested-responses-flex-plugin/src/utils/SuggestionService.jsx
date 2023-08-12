@@ -1,11 +1,11 @@
 import * as Flex from "@twilio/flex-ui";
 import axios from "axios";
 
-import { FUNCTION_URL } from "../config";
+const SERVERLESS_URL = process.env.FLEX_APP_SERVERLESS_URL
 
 class SuggestionService {
   constructor() {
-    this.url = FUNCTION_URL;
+    this.url = SERVERLESS_URL + "/suggestion";
     this.manager = Flex.Manager.getInstance();
   }
 
@@ -18,6 +18,7 @@ class SuggestionService {
 
   async getSuggestion(question) {
     const result = await this.makeRequest({ question });
+    console.log(result)
     return result.data?.answers?.[0];
   }
 
