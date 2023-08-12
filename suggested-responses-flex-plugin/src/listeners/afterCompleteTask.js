@@ -6,6 +6,10 @@ export default function afterCompleteTask() {
     const question = payload.task.attributes.question;
     const answer = payload.task.attributes.answer;
 
+    if (!(question && answer)) {
+      return;
+    }
+
     const result = await SuggestionService.addSuggestion(question, answer);
     if (!result) {
       console.log(`Error updating KB with: ${question}: ${answer}.`);
