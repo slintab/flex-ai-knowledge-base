@@ -15,7 +15,7 @@ import {
   ChatBubble,
 } from "@twilio-paste/chat-log";
 
-import SuggestionService from "../../utils/SuggestionService";
+import SuggestionService from "../../services/SuggestionService";
 
 function Suggestion(props) {
   const [suggestion, setSuggestion] = useState();
@@ -80,14 +80,13 @@ function Suggestion(props) {
     if (message.body.split(" ").length === 1) {
       return;
     }
-    try {
-      const suggestion = await SuggestionService.getSuggestion(message.body);
-      return suggestion;
-    } catch (e) {
-      console.log("Error fetching suggested answer: " + e);
+   
+    const suggestion = await SuggestionService.getSuggestion(message.body);
+    if (!suggestion) {
+      console.log("Error fetching suggested answer.");
+      return null
     }
-
-    return null;
+    return suggestion;
   }
 
   const setSuggestedResponse = (response) => {
