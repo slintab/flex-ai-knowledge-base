@@ -26,16 +26,27 @@ The repository contains two folders:
    3. Deploy the functions using the `twilio serverless:deploy` command.
    4. Make note of the newly deployed function URLs.
 
-2. ***Install the Flex plugin:***
+3. ***Install the Flex plugin:***
 
    Note that the plugin uses Flex UI 2.
 
 
    1. Install the [Flex Plugins CLI](https://www.twilio.com/docs/flex/developer/plugins/cli).
    2. Navigate to the plugin directory: `cd suggested-response-plugin`
-   3. Open the `/src/config.js` file. Set `FUNCTION_URL` to the base URL of your Twilio functions from step 1.
+   3. Rename `.env.example` to `.env` and then open it and set `FLEX_APP_SERVERLESS_URL` to the base URL of your Twilio functions from step 2. 
    4. Install the flex plugin using the `twilio flex:plugins:deploy` command. 
+
+4. ***Optional: disable updates*** 
    
+   By default, the plugin allows agents to add and update suggestions. This can be disabled if needed by [updating the Flex Configuration](https://www.twilio.com/docs/flex/developer/config/flex-configuration-rest-api#update-your-configuration) and adding the below entry under `ui_attributes`:
+      
+      ```json
+         "suggested_responses": {
+            "enableUpdates": false
+         }
+      ```
+   
+
 
 That's it! Navigate to your Flex instance and click on a messaging-based task to see the plugin in action.
 
