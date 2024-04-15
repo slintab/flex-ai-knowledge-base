@@ -4,7 +4,7 @@ This [Twilio Flex](https://www.twilio.com/flex) plugin uses the [Azure Cognitive
 
 
 ## Table of contents
-* [Design](#components)
+* [Design](#design)
 * [Setup](#setup)
 * [Demo](#demo)
 * [Maintainer](#maintainer)
