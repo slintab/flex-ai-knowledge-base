@@ -5,18 +5,22 @@ This [Twilio Flex](https://www.twilio.com/flex) plugin uses the [Azure Cognitive
 It also enables agents to add and improve suggestions by allowing them to mark questions and answer pairs in chat interactions.
 
 
-## Demo
-![Demo](demo.png?raw=true)
+## Table of contents
+* [Design](#components)
+* [Setup](#setup)
+* [Demo](#demo)
+* [Maintainer](#maintainer)
+
 
 ## Design
-![Architecture](architecture.png?raw=true)
-
 The repository contains two folders:
 - `suggested-response-functions`: contains the code for [Twilio Functions](https://www.twilio.com/docs/runtime/functions) used for fetching and adding suggestions, respectively. 
 - `suggested-response-plugin`: contains the code for a [Twilio Flex plugin](https://www.twilio.com/docs/flex/developer/plugins). The plugin displays suggested responses for the agents to view and send. It also enables agents to mark messages as either questions or answers to add and improve suggestions based on customer interactions.
 
-## Setup
+![Architecture](architecture.png?raw=true)
 
+
+## Setup
 1. **Create and deploy a Question Answering project on Azure. You can use [this](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/quickstart/sdk?pivots=studio) quickstart to get started.**
 
 2. ***Deploy Twilio Functions***
@@ -49,6 +53,11 @@ The repository contains two folders:
 
 
 That's it! Navigate to your Flex instance and click on a messaging-based task to see the plugin in action.
+
+
+## Demo
+![Demo](demo.png?raw=true)
+
 
 ## Maintainer
 Thanks for reading this far!
