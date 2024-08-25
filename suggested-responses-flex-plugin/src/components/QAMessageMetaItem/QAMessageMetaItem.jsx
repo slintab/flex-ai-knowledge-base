@@ -36,12 +36,14 @@ function QAMessageMetaOption(props) {
         <ChatMessageMeta aria-label="buttons to mark message as question or answer">
           <ChatMessageMetaItem>
             <Button
-              variant="secondary_icon"
-              size="reset"
+              variant={direction === "inbound" ? "destructive_link" : "link"}
               onClick={markMessage}
               disabled={buttonDisabled}
-              title={direction === "inbound" ? "Mark as question" : "Mark as answer"}>
-              {direction === "inbound" ? <Flex.Icon icon="GenericTask" id="test"/> : <Flex.Icon icon="GenericTaskBold"/>}
+              title={
+                direction === "inbound" ? "Mark as question" : "Mark as answer"
+              }
+            >
+              Mark {direction === "inbound" ? "question" : "answer"}
             </Button>
           </ChatMessageMetaItem>
         </ChatMessageMeta>
